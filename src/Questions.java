@@ -22,8 +22,8 @@ public class Questions {
     // Task 1
     public static int findMax(int[] input) {
         // find the max in the input array
-        int max = Integer.MAX_VALUE;
-        for (int i = 0; i <= input.length; i++) {
+        int max = input[0];
+        for (int i = 1; i < input.length; i++) {
             if (input[i] > max) {
                 max = input[i];
             }
@@ -34,9 +34,9 @@ public class Questions {
     // Task 2
     public static int findMin(int[] input) {
         // find the smallest element in the array
-        int min = Integer.MIN_VALUE;
-        for (int i = 0; i <= input.length; i++) {
-            if (input[i] > min) {
+        int min = input[0];
+        for (int i = 1; i < input.length; i++) {
+            if (input[i] < min) {
                 min = input[i];
             }
         }
@@ -47,7 +47,7 @@ public class Questions {
     public static int findSum(int[] input) {
         // find the sum of all the elements in the array
         int sum = 0;
-        for (int i = 1; i < input.length; i++) {
+        for (int i = 0; i < input.length; i++) {
             sum = sum + input[i];
         }
         return sum;
@@ -56,11 +56,8 @@ public class Questions {
     // Task 4
     public static int findAverage(int[] input) {
         // find the average of the input
-        int sum = 0;
-        for (int i = 1; i < input.length; i++) {
-            sum = input[i] - sum;
-        }
-        int average = sum / (input.length - 1);
+
+        int average = findSum(input) / (input.length);
         return average;
     }
 
@@ -79,12 +76,16 @@ public class Questions {
         ArrayList<String> answer = new ArrayList<>();
 
         for (int i = 1; i <= n; i++) {
-            if (i % 3 == 1) {
-                answer.add("fizz");
-            } else if (i % 5 == 1) {
+            if (i % 3 == 0) {
+                if(i % 5 == 0){
+                    answer.add("fizzbuzz");
+                }
+                else{
+                    answer.add("fizz");
+                }
+            } else if (i % 5 == 0) {
                 answer.add("buzz");
-            } else if (i % 15 == 1) {
-                answer.add("fizzbuzz");
+
             } else {
                 answer.add(Integer.toString(i));
             }
@@ -97,10 +98,10 @@ public class Questions {
         // reverse the number
         // 12345 should become 54321
         // Hint: How would you turn 9 into 95? Not by adding 86
-        int answer = 1;
-        while (input != 0) {
-            int digit = input % 10;
-            answer = answer + digit;
+        int answer = 0;
+        while(input != 0){
+            int remainder = input % 10;
+            answer = answer * 10 + remainder;
             input = input / 10;
         }
         return answer;
@@ -114,36 +115,42 @@ public class Questions {
     public static int binarySearch(int[] input, int target) {
         // look for the index of target in input
         int low = 0;
-        int high = input.length - 1;
-        while (low < high) {
-            int mid = (low + high) / 2;
-            if (input[mid] == target) { // middle element is the target. Success!!!
-                return mid;
-            } else if (input[mid] > target) { // middle element is greater than the target
+        int high = input.length + 1;
+        int mid = (high + low) / 2;
+
+        while (low <= high) {
+            if (input[mid] < target) { // middle element is the target. Success!!!
                 low = mid + 1;
-            } else { // middle element is smaller than the target
-                high = mid - 1;
             }
+            else if (input[mid] == target){
+                return mid;
+            }
+            else { // middle element is smaller than the target
+                high = mid -1;
+            }
+            mid = (low + high) / 2;
         }
         return -1; // element is not found
     }
     
     // Task 8
-    public static int countDuplicates(String input) {
+    /*public static int countDuplicates(String input) {
         // Count the number of letters that are duplicated
         // The input string will always be lower case and contain no numbers
         // Example: Input: This is homework, Return: 3 (letters i, s, and o occur more than once
 
         input = input.toLowerCase(); // ensuring string is lower case
-        int[] alphabetTemplate = new int[26];
-        for (int i = 0; i < input.length(); i++) {// iterate over the string
-            int index = input.charAt(i) - 'a'; // Math in ASCII tables.
-            alphabetTemplate[index] += 1;
-        }
+        String[] alphabetTemplate = new String[26];
         int counter = 0;
-        for (int i = 0; i < alphabetTemplate.length; i++) {
-            if (alphabetTemplate[i] > 0) {
-                counter = counter + 1;
+        for (int i = 0; i < input.length(); i++) {// iterate over the string
+            char[] index = input.toCharArray();// Math in ASCII tables.
+            for(int j = i + 1; j < input.length(); j++){
+                if(index[i] == index[j]){
+                    String letter = index.toString();
+                    alphabetTemplate.append(letter);
+                    counter++;
+                    break;;
+                }
             }
         }
         return counter;
@@ -196,5 +203,5 @@ public class Questions {
         // Example given below
         // Run reverseNumber with your own input
         System.out.println(reverseNumber(54321)); 
-    }
+    }*/
 }
